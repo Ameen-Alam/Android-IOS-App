@@ -41,7 +41,7 @@ class ExampleScreen extends React.Component {
             <View style={Style.logoContainer}>
               <Image style={Helpers.fullSize} source={Images.logo} resizeMode={'contain'} />
             </View>
-            <Text style={Style.text}>To get started, edit App.js</Text>
+            
             
             <Button
               style={ApplicationStyles.button}
