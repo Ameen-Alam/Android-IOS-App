@@ -15,7 +15,12 @@ export default {
   mediumBottomMargin: {
     marginBottom: medium,
   },
-
+  tinyBottomPedding: {
+    paddingBottom: tiny
+  },
+  mediumTopPedding: {
+    paddingTop: medium
+  },
   tinyVerticalMargin: {
     marginVertical: tiny,
   },

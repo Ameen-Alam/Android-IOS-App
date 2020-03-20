@@ -1,46 +1,28 @@
-// import { createBottomTabNavigator } from 'react-navigation'
-// // import NewsFeed from 'App/Containers/MainScreen/NewsFeed'
-// import MainScreen from 'App/Containers/MainScreen/MainScreen'
-// import Example from 'App/Containers/Example/ExampleScreen'
-
-
-// const MainTabs = createBottomTabNavigator({
-//   Feed: {
-//     screen: MainScreen,
-//     navigationOptions: {
-//       tabBarLabel: 'Feed',
-//     },
-//   },
-//   Search: {
-//     screen: MainScreen,
-//     navigationOptions: {
-//       tabBarLabel: 'Search',
-//     },
-//   },
-//   Discover: {
-//     screen: MainScreen,
-//     navigationOptions: {
-//       tabBarLabel: 'Discover',
-//     },
-//   },
-// });
-
-// export default MainTabs;
-
-
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
-
-import { NavigationContainer } from '@react-navigation/native';
-
-import MainScreen from 'App/Containers/MainScreen/MainScreen'
+import MyVideo from 'App/Containers/MainScreen/MyVideo/MyVideo'
+import NewsFeed from 'App/Containers/MainScreen/NewsFeed/NewsFeed'
+import TopTrending from 'App/Containers/MainScreen/TopTrending/TopTrending'
+import { Metrics, Helpers, Colors } from 'App/Theme'
 
 import { View, Text, TouchableOpacity } from 'react-native';
 
 function MyTabBar({ state, descriptors, navigation }) {
+  React.useEffect(() => {
+  const unsubscribe = navigation.addListener('tabPress', e => {
+    // Prevent default behavior
+
+    e.preventDefault();
+    // Do something manually
+    // ...
+  });
+
+  return unsubscribe;
+}, [navigation]);
   return (
-    <View style={{ flexDirection: 'row' }}>
+    <View style={{ flexDirection: 'row', backgroundColor: "white", borderTopColor: Colors.text, borderTopWidth: 1, }}>
+  
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -82,9 +64,9 @@ function MyTabBar({ state, descriptors, navigation }) {
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1 }}
+            style={[Metrics.verticalPadding, Helpers.fillRowCenter]}
           >
-            <Text style={{ color: isFocused ? '#673ab7' : '#222' }}>
+            <Text style={{ color: isFocused ? Colors.brand : Colors.text }}>
               {label}
             </Text>
           </TouchableOpacity>
@@ -101,7 +83,7 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
   
   return (
-    <NavigationContainer>
+
       <Tab.Navigator 
        tabBar={props => <MyTabBar {...props} />} 
        initialRouteName="NewsFeed"
@@ -111,7 +93,7 @@ function MyTabs() {
      >
       <Tab.Screen
         name="NewsFeed"
-        component={MainScreen}
+        component={NewsFeed}
         options={{
           tabBarLabel: 'News Feed',
           tabBarIcon: ({ color, size }) => (
@@ -120,38 +102,28 @@ function MyTabs() {
         }}
       />
 
-        <Tab.Screen
-          name="Profile"
-          component={MainScreen}
-          options={{
-            tabBarLabel: 'Profile',
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="account" color={color} size={size} />
-              ),
-            }}
-        />
-        <Tab.Screen
-          name="TopTrenz"
-          component={MainScreen}
-          options={{
-            tabBarLabel: 'Top Trenz',
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="bell" color={color} size={size} />
+      <Tab.Screen
+        name="TopTrending"
+        component={TopTrending}
+        options={{
+          tabBarLabel: 'Top Trending',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
             ),
           }}
         />
         <Tab.Screen
-          name="Performer"
-          component={MainScreen}
+          name="MyVideo"
+          component={MyVideo}
           options={{
-            tabBarLabel: 'Performer',
+            tabBarLabel: 'My Video',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="bell" color={color} size={size} />
             ),
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
+
   );
 }
 
